@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Una pregunta para ti 💜</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; overflow: hidden; display: grid; place-items: center;
+      color: white; font-family: system-ui, sans-serif;
+      background: radial-gradient(ellipse at 50% 110%, #63227f, #281342 48%, #09051c);
+    }
+    .nebula { position: fixed; inset: -20%; pointer-events: none; filter: blur(35px);
+      background: radial-gradient(ellipse at 25% 38%, #b34bd655, transparent 35%),
+                  radial-gradient(ellipse at 75% 65%, #653bd155, transparent 38%);
+      animation: drift 14s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: translate(3%, -2%) scale(1.08); } }
+    #stars, #heart-field { position: fixed; inset: 0; pointer-events: none; }
+    .star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: white;https://imunizzzpy.github.io/preguntaimportante/
+      box-shadow: 0 0 8px 2px #d8baff; animation: twinkle var(--speed) ease-in-out infinite alternate; }
+    @keyframes twinkle { to { opacity: .2; transform: scale(.5); } }
+    main { z-index: 1; width: min(90vw, 540px); padding: 42px 28px; text-align: center;
+          .watermark { position: fixed; z-index: 2; right: 16px; bottom: 12px; color: #ffffff80;
+            font-size: .75rem; letter-spacing: .04em; text-shadow: 0 1px 8px #0008; }
+      border: 1px solid #ffffff30; border-radius: 28px; background: #170d2cbb;
+      backdrop-filter: blur(12px); box-shadow: 0 20px 80px #0007, 0 0 55px #a348dd30; }
+    .moon { font-size: 2rem; margin-bottom: 8px; }
+    h1 { margin: 0 0 12px; font-size: clamp(1.8rem, 7vw, 2.6rem); }
+    #message { min-height: 1.7em; margin: 0 0 26px; color: #e3d4f5; font-size: 1.1rem; }
+    .buttons { display: flex; justify-content: center; gap: 14px; }
+    button { border: 0; border-radius: 999px; padding: 12px 30px; cursor: pointer;
+      font: inherit; font-weight: 700; transition: transform .2s, box-shadow .2s; }
+    button:hover { transform: translateY(-3px); box-shadow: 0 8px 24px #0006; }
+    #yes { color: #321044; background: linear-gradient(135deg, #f2b6ff, #d28cff); }
+    #no { color: white; background: #ffffff18; border: 1px solid #ffffff45; }
+    #heart-field { display: none; overflow: hidden; }
+    .heart { position: absolute; left: 50%; top: 50%; opacity: 0; color: #ff70c8;
+      font-size: var(--size); line-height: 1; text-shadow: 0 0 12px #ff55bc, 0 0 28px #e6299b;
+      animation: form-heart 1.7s cubic-bezier(.15,.75,.25,1) forwards; }
+    @keyframes form-heart {
+      0% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(.2); }
+      65% { opacity: 1; }
+      100% { opacity: .95; transform: translate(var(--x), var(--y)) scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="nebula" aria-hidden="true"></div>
+  <div id="stars" aria-hidden="true"></div>
+  <div id="heart-field" aria-hidden="true"></div>
+    <div class="watermark">made by @imuniz_tv</div>
+  <main id="question">
+    <div class="moon" aria-hidden="true">🌙✨</div>
+    <h1>¿Quieres ser mi novia?</h1>
+    <p id="message">Tengo una pregunta muy especial para ti…</p>
+    <div class="buttons">
+      <button id="yes" type="button">¡Sí! 💜</button>
+      <button id="no" type="button">No</button>
+    </div>
+  </main>
+  <script>
+    const stars = document.getElementById('stars');
+    for (let i = 0; i < 125; i++) {
+      const star = document.createElement('i');
+      star.className = 'star';
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.setProperty('--speed', `${1.5 + Math.random() * 3}s`);
+      star.style.animationDelay = `${Math.random() * 3}s`;
+      stars.appendChild(star);
+    }
+    document.getElementById('no').addEventListener('click', () => {
+      document.getElementById('message').textContent = '❌ ¡Error! Respuesta incorrecta. Try again 💫';
+    });
+    document.getElementById('yes').addEventListener('click', () => {
+      document.getElementById('question').style.display = 'none';
+      stars.style.display = 'none';
+      const field = document.getElementById('heart-field');
+      field.style.display = 'block';
+      for (let i = 0; i < 180; i++) {
+        const t = Math.PI * 2 * i / 180;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+        const heart = document.createElement('span');
+        heart.className = 'heart';
+        heart.textContent = '♥';
+        heart.style.setProperty('--x', `${x * Math.min(innerWidth / 42, 15)}px`);
+        heart.style.setProperty('--y', `${-y * Math.min(innerHeight / 42, 13)}px`);
+        heart.style.setProperty('--sx', `${(Math.random() - .5) * innerWidth}px`);
+        heart.style.setProperty('--sy', `${(Math.random() - .5) * innerHeight}px`);
+        heart.style.setProperty('--size', `${8 + Math.random() * 13}px`);
+        heart.style.color = ['#ff70c8', '#ff9ce3', '#e98cff', '#fff'][i % 4];
+        heart.style.animationDelay = `${Math.random() * .7}s`;
+        field.appendChild(heart);
+      }
+    });
+  </script>
+</body>
+</html>
